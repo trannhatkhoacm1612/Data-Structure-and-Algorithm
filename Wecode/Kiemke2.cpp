@@ -1,97 +1,200 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <utility>
+#include <bits/stdc++.h>
 using namespace std;
 
+const int mN = 1e5 + 10;
+using si = pair<string, int>;
+int res;
+string sto[mN];
 
-
-void quickSort(vector<int>& arr, int left, int right) {
-    int i = left, j = right;
-    int pivot = arr[(left + right) / 2];
-
-    while (i <= j) {
-        while (arr[i] < pivot) {
-            i++;
-        }
-        while (arr[j] > pivot) {
-            j--;
-        }
-        if (i <= j) {
-            swap(arr[i], arr[j]);
-            i++;
-            j--;
-        }
-    }
-
-    if (left < j) {
-        quickSort(arr, left, j);
-    }
-    if (i < right) {
-        quickSort(arr, i, right);
+bool cmpString(const string &s1, const string &s2) {
+    if (s1.size() > s2.size()) return false;
+    if (s1.size() < s2.size()) return true;
+    for (int i = 0; i < s1.size(); i++) {
+        if (s1[i] > s2[i]) return false;
+        if (s1[i] < s2[i]) return true;
     }
 }
 
-
-void selectionSort(vector<pair<int, int>>& arr) {
-    int n = arr.size();
-    for (int i = 0; i < n - 1; i++) {
-        int max_idx = i;
-        for (int j = i + 1; j < n; j++) {
-            if (arr[j].second > arr[max_idx].second || (arr[j].second == arr[max_idx].second && arr[j].first < arr[max_idx].first)) {
-                max_idx = j;
-            }
-        }
-        if (max_idx != i) {
-            swap(arr[max_idx], arr[i]);
-        }
-    }
+bool cmp(const si &u, const si &v) {
+    return (u.second > v.second) || (u.second == v.second && cmpString(u.first, v.first));
 }
 
+class Heap {
+private:
+    vector<si> heap;
 
-int main(){
-    // int n, vari;
-    // cin >> n;
-    // vector<int> arr(n),arr_count(10000,0),labels;
-    // for(int i =0 ; i < n; i++){
-    //     cin >> vari;
-    //     arr_count[vari] ++;
-    //     if(labels.size() == 0){
-    //         labels.push_back(vari);
-    //     }
-    //     else {
-    //         if(find(labels.begin(), labels.end(),vari) == labels.end()){
-    //             labels.push_back(arr[i]);
-    //         }
-    //     }
-    // }
-    // for(auto item: labels){
-    //     cout << item << " ";
-    
-    int n, vari;
+    int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    int left(int i) {
+        return (2 * i) + 1;
+    }
+
+    int right(int i) {
+        return (2 * i) + 2;
+    }
+
+    void heapifyUp(int i) {
+        if (i && !cmp(heap[parent(i)], heap[i])) {
+            swap(heap[i], heap[parent(i)]);
+            heapifyUp(parent(i));
+        }
+    }
+
+    void heapifyDown(int i) {
+        int l = left(i);
+        int r = right(i);
+        int largest = i;
+
+        if (l < heap.size() && cmp(heap[l], heap[largest])) {
+            largest = l;
+        }
+
+        if (r < heap.size() && cmp(heap[r], heap[largest])) {
+            largest = r;
+        }
+
+        if (largest != i) {
+            swap(heap[i], heap[largest]);
+            heapifyDown(largest);
+        }
+    }
+
+public:
+    Heap() {}
+
+    void push(si val) {
+        heap.push_back(val);
+        heapifyUp(heap.size() - 1);
+    }
+
+    void pop() {
+        if (!heap.empty()) {
+            heap[0] = heap.back();
+            heap.pop_back();
+            heapifyDown(0);
+        }
+    }
+
+    si top() {
+        if (!heap.empty()) {
+            return heap[0];
+        }
+    }
+
+    bool empty() {
+        return heap.empty();
+    }
+
+    int size() {
+        return heap.size();
+    }
+} pq;
+
+class HeapString {
+private:
+    vector<string> heap;
+
+    int parent(int i) {
+        return (i - 1) / 2;
+    }
+
+    int left(int i) {
+        return (2 * i) + 1;
+    }
+
+    int right(int i) {
+        return (2 * i) + 2;
+    }
+
+    void heapifyUp(int i) {
+        if (i && heap[parent(i)] < heap[i]) {
+            swap(heap[i], heap[parent(i)]);
+            heapifyUp(parent(i));
+        }
+    }
+
+    void heapifyDown(int i) {
+        int l = left(i);
+        int r = right(i);
+        int largest = i;
+
+        if (l < heap.size() && heap[l] > heap[largest]) {
+            largest = l;
+        }
+
+        if (r < heap.size() && heap[r] > heap[largest]) {
+            largest = r;
+        }
+
+        if (largest != i) {
+            swap(heap[i], heap[largest]);
+            heapifyDown(largest);
+        }
+    }
+
+public:
+    HeapString() {}
+
+    void push(string val) {
+        heap.push_back(val);
+        heapifyUp(heap.size() - 1);
+    }
+
+    void pop() {
+        if (!heap.empty()) {
+            heap[0] = heap.back();
+            heap.pop_back();
+            heapifyDown(0);
+        }
+    }
+
+    string top() {
+        if (!heap.empty()) {
+            return heap[0];
+        }
+    }
+
+    bool empty() {
+        return heap.empty();
+    }
+
+    int size() {
+        return heap.size();
+    }
+} HeapString;
+
+string b[mN];
+si c[mN];
+
+int main() {
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    int n, cnt = 0;
+    string str;
     cin >> n;
-    vector<int> arr(n);
-    vector<pair<int,int>> dem;
-    for(int i = 0; i < n; i++){
-        cin >> arr[i];
+    for (int i = 1; i <= n; i++) {
+        cin >> str;
+        HeapString.push(str);
     }
-    
-    quickSort(arr,0,n - 1);
-    
-    int i = 0,count = 1;
-    while(i < n){
-        if(arr[i] == arr[i + 1] ){
-            count ++;
-        }
+    for (int i = 1; i <= n; i++) {
+        sto[i] = HeapString.top();
+        HeapString.pop();
+    }
+    string lastVal = "", val;
+    for (int i = 1; i <= n; i++) {
+        val = sto[i];
+        if (val == lastVal) c[cnt].second++;
         else {
-            dem.push_back({arr[i],count});
-            count = 1;
+            c[++cnt] = {val, 1};
+            lastVal = val;
         }
-        i++;
     }
-    selectionSort(dem);
-    for(auto item: dem){
-        cout << item.first << " " << item.second << endl;
+    for (int i = 1; i <= cnt; i++) pq.push(si(c[i]));
+    while (pq.size()) {
+        si x = pq.top();
+        pq.pop();
+        cout << x.first << " " << x.second << "\n";
     }
-    
 }
