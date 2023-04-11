@@ -16,7 +16,7 @@ int main(){
         indx[x] = i;
         for(int j = m + n; j >= 1; j--){
             if(arr[j] != 0){
-                cout << arr[j];
+                cout << arr[j] << " ";
                 break;
             }
         }
