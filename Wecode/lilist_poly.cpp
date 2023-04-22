@@ -42,7 +42,9 @@ struct DATHUC{ // da thuc
 	}
 };
 
-void Nhap(DATHUC &B, double heso,int  somu){
+
+// /////////////////* Bài làm
+void Nhap(DATHUC &B, double heso,int  somu){ // Nhập dathuc
 	DONTHUC * donthuc = new DONTHUC(heso, somu); // Tạo một con trỏ donthuc với heso, somu
 	if(B.head == nullptr){ // Nếu trỏ head = null
 		B.head = new Node(donthuc); // b.head  trỏ đến Node(donthuc)
@@ -55,7 +57,7 @@ void Nhap(DATHUC &B, double heso,int  somu){
 	}
 }
 
-void Xuat(DATHUC& B) {
+void Xuat(DATHUC& B) { // in đa thức
     Node* tmp = B.head; // Tạo một con trỏ tới B.head
     bool is_first = true; // Kiểm tra số hạng đầu
 
@@ -141,7 +143,7 @@ void Xuat(DATHUC& B) {
     }
 }
 
-double TinhDaThuc(DATHUC &B, double x){
+double TinhDaThuc(DATHUC &B, double x){ // Tính f(x)
 	double re = 0;
 	Node *tmp = B.head; // Trỏ tmp tới B.head
 	while(tmp != nullptr){ // Duyệt hết linklist
@@ -151,6 +153,7 @@ double TinhDaThuc(DATHUC &B, double x){
 	return re;
 
 }
+// //////////////*
 
 
 int main() {
