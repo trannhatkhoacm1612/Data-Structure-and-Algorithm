@@ -62,9 +62,9 @@ void free_singly_linked_list(SinglyLinkedListNode* node) {
 }
 
 
-
+// ///////////////* Bài làm
 SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* head_list1,SinglyLinkedListNode* head_list2){
-    SinglyLinkedListNode *fake = new SinglyLinkedListNode(0);
+    SinglyLinkedListNode *fake = new SinglyLinkedListNode(0); // node fake
     SinglyLinkedListNode *manage = fake; // Trỏ tới fake
     while(true){
         if(head_list1 == nullptr){ // Nếu list 1 rỗng
@@ -91,7 +91,7 @@ SinglyLinkedListNode* mergeLists(SinglyLinkedListNode* head_list1,SinglyLinkedLi
     
 
 }
-
+// /////////// *
 
 
 
