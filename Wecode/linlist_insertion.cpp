@@ -54,7 +54,7 @@ void printLinkedList(SinglyLinkedListNode* head) { // in ra dữ liệu
 }
 
 
-
+// ////////////////////////////// * Bài làm
 SinglyLinkedListNode* insertSortedLinkedList(SinglyLinkedListNode* head, int x) {
     SinglyLinkedListNode *newnode = new SinglyLinkedListNode(x); // Con trỏ mới trỏ tới Node mới
     SinglyLinkedListNode *current = head; // Con trỏ current tới head
@@ -71,6 +71,7 @@ SinglyLinkedListNode* insertSortedLinkedList(SinglyLinkedListNode* head, int x) 
     current->next = newnode; // current trỏ tới newnode đê swap
     return head;
 }
+// //////////////////////////////////////*
 
 int main()
 {
